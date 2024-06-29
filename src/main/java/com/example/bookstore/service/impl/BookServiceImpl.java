@@ -1,9 +1,10 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.dto.BookDto;
-import com.example.bookstore.dto.CreateBookRequestDto;
+import com.example.bookstore.dto.BookRequestDto;
+import com.example.bookstore.dto.BookResponseDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.BookMapper;
+import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.service.BookService;
 import java.util.List;
@@ -20,20 +21,39 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto save(CreateBookRequestDto createBookRequestDto) {
-        return bookMapper.toDto(bookRepository.save(bookMapper.toModel(createBookRequestDto)));
+    public BookResponseDto save(BookRequestDto bookRequestDto) {
+        return bookMapper.toDto(bookRepository.save(bookMapper.toModel(bookRequestDto)));
     }
 
     @Override
-    public List<BookDto> getAll() {
+    public List<BookResponseDto> getAll() {
         return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
-    public BookDto getBookById(Long id) {
+    public BookResponseDto getBookById(Long id) {
         return bookMapper.toDto(bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find book by id: " + id)));
+    }
+
+    @Override
+    public BookResponseDto update(BookRequestDto bookRequestDto, Long id) {
+        if (bookRepository.existsById(id)) {
+            Book bookToUpdate = bookMapper.toModel(bookRequestDto);
+            bookToUpdate.setId(id);
+            return bookMapper.toDto(bookRepository.save(bookToUpdate));
+        }
+        throw new EntityNotFoundException("Can't find book to update by id: " + id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (bookRepository.existsById(id)) {
+            bookRepository.deleteById(id);
+            return;
+        }
+        throw new EntityNotFoundException("Can't find book to delete by id: " + id);
     }
 }
