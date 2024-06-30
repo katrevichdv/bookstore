@@ -2,9 +2,11 @@ package com.example.bookstore.service.impl;
 
 import com.example.bookstore.dto.BookRequestDto;
 import com.example.bookstore.dto.BookResponseDto;
+import com.example.bookstore.dto.BookSearchParametersDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.BookMapper;
-import com.example.bookstore.repository.BookRepository;
+import com.example.bookstore.repository.book.BookRepository;
+import com.example.bookstore.repository.book.BookSpecificationBuilder;
 import com.example.bookstore.service.BookService;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -13,10 +15,14 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
-    public BookServiceImpl(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookServiceImpl(BookRepository bookRepository,
+                           BookMapper bookMapper,
+                           BookSpecificationBuilder bookSpecificationBuilder) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
+        this.bookSpecificationBuilder = bookSpecificationBuilder;
     }
 
     @Override
@@ -50,5 +56,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookResponseDto> search(BookSearchParametersDto searchParameters) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters))
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
