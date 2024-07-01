@@ -1,13 +1,11 @@
 package com.example.bookstore.dto;
 
-import lombok.Data;
+public record BookRequestDto(
+        String title,
+        String author,
+        String isbn,
+        String price,
+        String description,
+        String coverImage) {
 
-@Data
-public class BookRequestDto {
-    private String title;
-    private String author;
-    private String isbn;
-    private String price;
-    private String description;
-    private String coverImage;
 }
