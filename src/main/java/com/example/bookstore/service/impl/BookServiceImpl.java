@@ -6,7 +6,7 @@ import com.example.bookstore.dto.BookSearchParametersDto;
 import com.example.bookstore.exception.EntityNotFoundException;
 import com.example.bookstore.mapper.BookMapper;
 import com.example.bookstore.repository.book.BookRepository;
-import com.example.bookstore.repository.book.BookSpecificationBuilder;
+import com.example.bookstore.repository.book.BookSpecificationManager;
 import com.example.bookstore.service.BookService;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private final BookSpecificationBuilder bookSpecificationBuilder;
+    private final BookSpecificationManager specificationManager;
 
     public BookServiceImpl(BookRepository bookRepository,
                            BookMapper bookMapper,
-                           BookSpecificationBuilder bookSpecificationBuilder) {
+                           BookSpecificationManager bookSpecificationProviderManager) {
         this.bookRepository = bookRepository;
         this.bookMapper = bookMapper;
-        this.bookSpecificationBuilder = bookSpecificationBuilder;
+        this.specificationManager = bookSpecificationProviderManager;
     }
 
     @Override
@@ -62,7 +62,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookResponseDto> search(BookSearchParametersDto searchParameters,
                                         Pageable pageable) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters), pageable)
+        return bookRepository.findAll(specificationManager.getSpecification(searchParameters),
+                        pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();

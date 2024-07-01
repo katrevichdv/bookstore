@@ -1,20 +1,20 @@
 package com.example.bookstore.repository.book.specification;
 
+import com.example.bookstore.dto.BookSearchParametersDto;
 import com.example.bookstore.model.Book;
-import com.example.bookstore.repository.SpecificationProvider;
-import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorSpecificationProvider implements SpecificationProvider<Book> {
+public class AuthorSpecificationProvider implements BookSpecificationProvider {
     @Override
-    public String getKey() {
-        return "author";
+    public boolean isSuitable(BookSearchParametersDto searchParameters) {
+        return searchParameters.author() != null;
+
     }
 
     @Override
-    public Specification<Book> getSpecification(List<String> params) {
-        return (root, query, criteriaBuilder) -> root.get("author").in(params);
+    public Specification<Book> getSpecification(BookSearchParametersDto searchParameters) {
+        return (root, query, criteriaBuilder) -> root.get("author").in(searchParameters.author());
     }
 }
