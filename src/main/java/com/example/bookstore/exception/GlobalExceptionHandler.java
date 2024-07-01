@@ -1,5 +1,7 @@
 package com.example.bookstore.exception;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -23,15 +25,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAllExceptions(Exception ex) {
-        return new ResponseEntity<>("An unexpected error occurred",
-                HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> handleNullPointerExceptions(NullPointerException ex) {
-        return new ResponseEntity<>("Null pointer exception occurred",
-                HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<String>> handleAllExceptions(Exception ex) {
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+        Arrays.stream(ex.getSuppressed())
+                .map(Throwable::getMessage)
+                .forEach(errors::add);
+        return new ResponseEntity<>(errors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
