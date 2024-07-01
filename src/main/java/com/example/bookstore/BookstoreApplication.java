@@ -12,6 +12,6 @@ public class BookstoreApplication {
     public static void main(String[] args) {
         LOGGER.info("Starting Bookstore application");
         SpringApplication.run(BookstoreApplication.class, args);
-        LOGGER.info("Bookstore application finished");
+        LOGGER.info("Bookstore application started");
     }
 }

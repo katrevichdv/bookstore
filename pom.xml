@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.3</version>
+        <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -29,11 +29,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -102,6 +106,14 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>false</linkXRef>
                     <sourceDirectories>src</sourceDirectories>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <propertyFile>liquibase.properties</propertyFile>
                 </configuration>
             </plugin>
             <plugin>
