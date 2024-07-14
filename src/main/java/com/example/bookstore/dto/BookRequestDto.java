@@ -1,8 +1,8 @@
 package com.example.bookstore.dto;
 
 import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 public record BookRequestDto(
         @NotBlank
@@ -11,7 +11,7 @@ public record BookRequestDto(
         String author,
         @NotBlank
         String isbn,
-        @Min(0) @Digits(integer = 8, fraction = 2)
+        @Positive @Digits(integer = 8, fraction = 2)
         String price,
         String description,
         String coverImage) {
