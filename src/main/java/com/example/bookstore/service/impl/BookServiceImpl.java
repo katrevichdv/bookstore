@@ -9,6 +9,7 @@ import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.book.BookSpecificationBuilder;
 import com.example.bookstore.service.BookService;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,8 +32,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> getAll() {
-        return bookRepository.findAll().stream()
+    public List<BookResponseDto> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
@@ -59,8 +60,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookResponseDto> search(BookSearchParametersDto searchParameters) {
-        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters))
+    public List<BookResponseDto> search(BookSearchParametersDto searchParameters,
+                                        Pageable pageable) {
+        return bookRepository.findAll(bookSpecificationBuilder.build(searchParameters), pageable)
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
