@@ -2,8 +2,6 @@ package com.example.bookstore.repository;
 
 import org.springframework.data.jpa.domain.Specification;
 
-public interface SpecificationProvider<T, U> {
-    boolean isSuitable(U searchParameters);
-
+public interface SpecificationManager<T, U> {
     Specification<T> getSpecification(U searchParameters);
 }

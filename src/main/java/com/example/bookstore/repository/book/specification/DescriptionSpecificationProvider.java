@@ -1,22 +1,22 @@
 package com.example.bookstore.repository.book.specification;
 
+import com.example.bookstore.dto.BookSearchParametersDto;
 import com.example.bookstore.model.Book;
-import com.example.bookstore.repository.SpecificationProvider;
-import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DescriptionSpecificationProvider implements SpecificationProvider<Book> {
+public class DescriptionSpecificationProvider implements BookSpecificationProvider {
     @Override
-    public String getKey() {
-        return "description";
+    public boolean isSuitable(BookSearchParametersDto searchParameters) {
+        return searchParameters.description() != null;
     }
 
     @Override
-    public Specification<Book> getSpecification(List<String> params) {
+    public Specification<Book> getSpecification(BookSearchParametersDto searchParameters) {
         return (root, query, criteriaBuilder) ->
-            params.stream()
+            searchParameters.description()
+                    .stream()
                     .map(p -> criteriaBuilder.like(root.get("description"), "%" + p + "%"))
                     .reduce(criteriaBuilder::and)
                     .orElse(null);
