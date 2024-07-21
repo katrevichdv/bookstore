@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-    BookResponseDto save(BookRequestDto bookRequestDto);
+    BookResponseDto save(BookRequestDto requestDto);
 
     List<BookResponseDto> getAll(Pageable pageable);
 
