@@ -1,8 +1,8 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.dto.BookRequestDto;
-import com.example.bookstore.dto.BookResponseDto;
-import com.example.bookstore.dto.BookSearchParametersDto;
+import com.example.bookstore.dto.book.BookRequestDto;
+import com.example.bookstore.dto.book.BookResponseDto;
+import com.example.bookstore.dto.book.BookSearchParametersDto;
 import com.example.bookstore.service.BookService;
 import jakarta.validation.Valid;
 import java.util.List;

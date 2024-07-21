@@ -1,4 +1,4 @@
-package com.example.bookstore.dto;
+package com.example.bookstore.dto.book;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Positive;
