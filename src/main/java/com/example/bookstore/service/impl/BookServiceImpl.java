@@ -9,22 +9,16 @@ import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.repository.book.BookSpecificationManager;
 import com.example.bookstore.service.BookService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationManager specificationManager;
-
-    public BookServiceImpl(BookRepository bookRepository,
-                           BookMapper bookMapper,
-                           BookSpecificationManager bookSpecificationProviderManager) {
-        this.bookRepository = bookRepository;
-        this.bookMapper = bookMapper;
-        this.specificationManager = bookSpecificationProviderManager;
-    }
 
     @Override
     public BookResponseDto save(BookRequestDto requestDto) {
