@@ -3,13 +3,12 @@ package com.example.bookstore.dto.user;
 import com.example.bookstore.validation.constraints.FieldMatch;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @FieldMatch(field = "password", fieldMatch = "repeatPassword", message = "Passwords don't match")
 public record UserRequestDto(
-        @NotNull
         @Email
+        @NotBlank
         String email,
         @NotBlank
         @Size(min = 8)
