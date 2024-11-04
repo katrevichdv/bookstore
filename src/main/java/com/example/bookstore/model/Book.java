@@ -1,10 +1,7 @@
 package com.example.bookstore.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +10,8 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Setter
-@Entity(name = "books")
+@Entity
+@Table(name = "books")
 @SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
 public class Book {
