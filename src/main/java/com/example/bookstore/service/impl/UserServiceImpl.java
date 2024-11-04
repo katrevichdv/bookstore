@@ -13,13 +13,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private static final String REGISTRATION_EXCEPTION_TEMPLATE =
+            "User with email %s: already exists";
+
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     @Override
     public UserResponseDto register(UserRequestDto requestDto) throws RegistrationException {
-        if (userRepository.existsByEmail(requestDto.email())) {
-            throw new RegistrationException("Can't register user. Email is taken");
+        String email = requestDto.email();
+        if (userRepository.existsByEmail(email)) {
+            throw new RegistrationException(REGISTRATION_EXCEPTION_TEMPLATE.formatted(email));
         }
         User userToSave = userMapper.toModel(requestDto);
         User savedUser = userRepository.save(userToSave);
