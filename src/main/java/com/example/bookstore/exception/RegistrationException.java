@@ -1,7 +1,11 @@
 package com.example.bookstore.exception;
 
 public class RegistrationException extends Exception {
-    public RegistrationException(String message) {
+    private RegistrationException(String message) {
         super(message);
+    }
+
+    public static RegistrationException emailExist(String email) {
+        return new RegistrationException("User with email " + email + ": already exists");
     }
 }
