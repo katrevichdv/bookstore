@@ -1,19 +1,17 @@
 package com.example.bookstore.repository.book;
 
-import com.example.bookstore.dto.BookSearchParametersDto;
+import com.example.bookstore.dto.book.BookSearchParametersDto;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.repository.book.specification.BookSpecificationProvider;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class BookSpecificationManagerImpl implements BookSpecificationManager {
     private final List<BookSpecificationProvider> providers;
-
-    public BookSpecificationManagerImpl(List<BookSpecificationProvider> providers) {
-        this.providers = providers;
-    }
 
     @Override
     public Specification<Book> getSpecification(BookSearchParametersDto searchParameters) {
