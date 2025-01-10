@@ -43,6 +43,7 @@ public class User implements UserDetails {
 
     private String shippingAddress;
 
+    @Column
     private boolean enabled;
 
     @ManyToMany
